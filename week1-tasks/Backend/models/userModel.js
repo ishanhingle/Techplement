@@ -1,0 +1,20 @@
+const mongoose=require('mongoose');
+const userSchema=new mongoose.Schema({
+    username:{
+        type:String,
+        required:true,
+        unique:true,
+    },
+    password:{
+      type:String,
+      required:true,
+    },
+    quotes:[
+        {
+            type:mongoose.Types.ObjectId,
+            ref:"Quotes"
+        }
+    ]
+})
+const userModel=mongoose.Model("User",userSchema)
+module.exports=userModel;

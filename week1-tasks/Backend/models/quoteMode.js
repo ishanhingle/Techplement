@@ -9,5 +9,5 @@ const quoteSchema=new mongoose.Schema({
         ref:"User",
     }
 })
-const quoteModel=mongoose.Model("Quotes",userSchema);
+const quoteModel=mongoose.model("Quotes",quoteSchema);
 module.exports=quoteModel;

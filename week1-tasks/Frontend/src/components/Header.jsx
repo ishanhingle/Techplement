@@ -11,6 +11,7 @@ function Header() {
     const logout=()=>{
         localStorage.removeItem("token");
         navigate("/");
+        setUser(null);
         toast("User Logged Out Successfully");
     }
     return (
@@ -25,8 +26,8 @@ function Header() {
             {(user==null)?
             <Link className= 'rounded-xl  p-2 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white' to='/signin'>Signin</Link>
             :(<div className=' flex flex-wrap'>
-              <div className= 'rounded-xl font-extrabold p-2'>{`Hello, ${user.name}`}</div>
-              <button className=' ml-1 rounded-xl  p-2 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-black' onClick={signOut}>
+              <div className= 'rounded-xl font-extrabold p-2'>{`Hello, ${user.username}`}</div>
+              <button className=' ml-1 rounded-xl  p-2 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-black' onClick={logout}>
                Logout
               </button>
               </div>

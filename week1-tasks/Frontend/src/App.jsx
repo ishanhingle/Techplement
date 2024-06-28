@@ -10,6 +10,9 @@ import AddQuote from './pages/AddQuote'
 import Signup from './pages/Signup'
 import Search from './pages/Search'
 import Footer from './components/Footer'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
 
   return (
@@ -18,11 +21,12 @@ function App() {
       <Routes>
         <Route path='/' element={<Home/>}/>
         <Route path='/signin' element={<Signin/>}/>
-        <Route path='/signin' element={<Signup/>}/>
+        <Route path='/signup' element={<Signup/>}/>
         <Route path='/add' element={<AddQuote/>}/>
         <Route path='/search' element={<Search/>}/>
       </Routes>
       <Footer/>
+      <ToastContainer/>
       
     </>
   )

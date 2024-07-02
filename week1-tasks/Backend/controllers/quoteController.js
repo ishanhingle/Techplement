@@ -4,9 +4,9 @@ const ExpressError = require("../utils/ExpressError");
 const catchAsync = require("../utils/catchAsync");
 
 module.exports.addQuote=catchAsync(async(req,res,next)=>{
-    const {body}=req.body;
-    if(!body) throw ExpressError({message:"Please Write Complete Message", status:404});
-    const quote=new quoteModel({body,author:req.user_id});
+    const {body,name}=req.body;
+    if(body===undefined || body=="" || name===undefined) throw new ExpressError("Please Write Complete Message",404);
+    const quote=new quoteModel({body,name,author:req.user_id});
     const user= await userModel.findById(req.user_id);
     user.quotes.push(quote._id);
     await user.save();
@@ -20,10 +20,27 @@ module.exports.addQuote=catchAsync(async(req,res,next)=>{
 module.exports.getRandom=catchAsync(async (req,res,next)=>{
     const quote=await quoteModel.aggregate([{
         $sample:{size:1}
-    }]);
-    if(!quote) throw ExpressError({message:"Quote Not Found",status:404})
+    }])
+    await userModel.populate(quote,{path:'author'})
+    if(!quote) throw ExpressError("Quote Not Found",404)
     res.status(200).json({
        success:true,
-       quote,
+       quote:{
+        body:quote[0].body,
+        author:quote[0].author.username,
+        name:quote[0].name,
+       },
+    })
+})
+
+module.exports.getQuotesByName=catchAsync(async (req,res,next)=>{
+    const {name}=req.params;
+    console.log(name);
+    const quotes=await quoteModel.find({name:name});
+    console.log(quotes);
+    if(!quotes) throw  new ExpressError("User Not Found",404);
+    res.status(200).json({
+        success:true,
+        quotes
     })
 })
